@@ -48,7 +48,7 @@ class GameView(arcade.Window):
         toponym_longitude, toponym_altitude = geocoder.get_coordinates(toponym_to_find)
         if toponym_longitude and toponym_altitude:
             delta = str(float(get_spn(toponym_to_find).split(",")[0]) * self.default_zoom) + "," + str(float(get_spn(toponym_to_find).split(",")[1]) * self.default_zoom)
-            print(type(delta))
+
             apikey = "17efe1e9-c0e1-4c3d-b18c-2cf038f24953"
             ll = ",".join([toponym_longitude, toponym_altitude])
             # Собираем параметры для запроса к StaticMapsAPI:
@@ -58,7 +58,6 @@ class GameView(arcade.Window):
                 "apikey": apikey,
                 "theme": "dark"
             }
-            print()
             map_api_server = "https://static-maps.yandex.ru/v1"
             response = requests.get(map_api_server, params=map_params)
 
