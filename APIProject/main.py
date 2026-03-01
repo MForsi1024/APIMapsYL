@@ -1,10 +1,12 @@
 import os
 import arcade
 import sys
+
+from arcade.gui import UIFlatButton, UIBoxLayout, UIAnchorLayout, UIManager
+
 import geocoder
 import requests
 from geocoder import get_spn
-
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -12,13 +14,28 @@ WINDOW_TITLE = "MAP"
 MAP_FILE = "map.png"
 THEMES = ['light', 'dark']
 STANDART_PLACE = 'Москва'
+
+
+
 class GameView(arcade.Window):
     def setup(self):
+        self.theme_index = 0
+        self.manager = UIManager()
+        self.manager.enable()  # Включить, чтоб виджеты работали
+
+        # Layout для организации — как полки в шкафу
+        self.anchor_layout = UIAnchorLayout()  # Центрирует виджеты
+        self.box_layout = UIBoxLayout(vertical=True, space_between=10)  # Вертикальный стек
+
+        # Добавим все виджеты в box, потом box в anchor
+        self.setup_widgets()  # Функция ниже
+
+        self.anchor_layout.add(self.box_layout)  # Box в anchor
+        self.manager.add(self.anchor_layout)  # Всё в manager
         self.get_image()
 
     def on_draw(self):
         self.clear()
-
         arcade.draw_texture_rect(
             self.background,
             arcade.LBWH(
@@ -28,6 +45,18 @@ class GameView(arcade.Window):
                 self.background.height
             ),
         )
+        self.manager.draw()
+
+    def setup_widgets(self):
+        theme_button = UIFlatButton(text="Поменять тему", width=200, height=50, color=arcade.color.BLUE)
+        theme_button.on_click = lambda event: self.change_theme()  # Не только лямбду, конечно
+        self.box_layout.add(theme_button)
+        self.anchor_layout.center_y = -300
+
+    def change_theme(self):
+        self.theme_index += 1
+        self.theme_index %= 2
+        self.get_image()
 
     def get_image(self):
         toponym_to_find = " ".join(sys.argv[1:])
@@ -44,7 +73,7 @@ class GameView(arcade.Window):
                 "ll": ll,
                 "spn": delta,
                 "apikey": apikey,
-                "theme": "dark"
+                "theme": THEMES[self.theme_index]
             }
             print()
             map_api_server = "https://static-maps.yandex.ru/v1"
