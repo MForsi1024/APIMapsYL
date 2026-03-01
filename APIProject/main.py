@@ -8,8 +8,8 @@ import geocoder
 import requests
 from geocoder import get_spn
 
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
+WINDOW_WIDTH = 1920
+WINDOW_HEIGHT = 1080
 WINDOW_TITLE = "MAP"
 MAP_FILE = "map.png"
 THEMES = ['light', 'dark']
@@ -40,7 +40,7 @@ class GameView(arcade.Window):
             self.background,
             arcade.LBWH(
                 (self.width - self.background.width) // 2,
-                (self.height - self.background.height) // 2,
+                (self.height - self.background.height) // 1.25,
                 self.background.width,
                 self.background.height
             ),
@@ -51,7 +51,10 @@ class GameView(arcade.Window):
         theme_button = UIFlatButton(text="Поменять тему", width=200, height=50, color=arcade.color.BLUE)
         theme_button.on_click = lambda event: self.change_theme()  # Не только лямбду, конечно
         self.box_layout.add(theme_button)
-        self.anchor_layout.center_y = -300
+        theme_button = UIFlatButton(text="Сброс поискового результата", width=250, height=50, color=arcade.color.BLUE)
+        theme_button.on_click = lambda event: self.change_theme()  # Не только лямбду, конечно
+        self.box_layout.add(theme_button)
+        self.anchor_layout.center_y = -100
 
     def change_theme(self):
         self.theme_index += 1
