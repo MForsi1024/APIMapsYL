@@ -26,7 +26,18 @@ class GameView(arcade.Window):
 
     def on_draw(self):
         self.clear()
+        self.manager = UIManager()
+        self.manager.enable()  # Включить, чтоб виджеты работали
 
+        # Layout для организации — как полки в шкафу
+        self.anchor_layout = UIAnchorLayout()  # Центрирует виджеты
+        self.box_layout = UIBoxLayout(vertical=True, space_between=10)  # Вертикальный стек
+
+        # Добавим все виджеты в box, потом box в anchor
+        self.setup_widgets()  # Функция ниже
+
+        self.anchor_layout.add(self.box_layout)  # Box в anchor
+        self.manager.add(self.anchor_layout)
         arcade.draw_texture_rect(
             self.background,
             arcade.LBWH(
