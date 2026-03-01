@@ -8,14 +8,15 @@ import geocoder
 import requests
 from geocoder import get_spn
 
-
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 WINDOW_TITLE = "MAP"
 MAP_FILE = "map.png"
 THEMES = ['light', 'dark']
-STANDART_PLACE = 'Москва'
+
+
 class GameView(arcade.Window):
+
     def setup(self):
         self.default_zoom = 1
         self.get_image()
@@ -68,9 +69,9 @@ class GameView(arcade.Window):
                 print("Http статус:", response.status_code, "(", response.reason, ")")
                 sys.exit(1)
 
-            # Запишем полученное изображение в файл.
-            with open(MAP_FILE, "wb") as file:
-                file.write(response.content)
+        # Запишем полученное изображение в файл.
+        with open(MAP_FILE, "wb") as file:
+            file.write(response.content)
 
             self.background = arcade.load_texture(MAP_FILE)
 
