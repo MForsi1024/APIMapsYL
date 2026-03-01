@@ -14,7 +14,6 @@ WINDOW_TITLE = "MAP"
 MAP_FILE = "map.png"
 THEMES = ['light', 'dark']
 
-
 class GameView(arcade.Window):
 
     def setup(self):
