@@ -11,7 +11,7 @@ WINDOW_HEIGHT = 720
 WINDOW_TITLE = "MAP"
 MAP_FILE = "map.png"
 THEMES = ['light', 'dark']
-
+STANDART_PLACE = 'Москва'
 class GameView(arcade.Window):
     def setup(self):
         self.get_image()
@@ -31,6 +31,8 @@ class GameView(arcade.Window):
 
     def get_image(self):
         toponym_to_find = " ".join(sys.argv[1:])
+        if not toponym_to_find:
+            toponym_to_find = STANDART_PLACE
         toponym = geocoder.get_toponym(toponym_to_find)
         toponym_longitude, toponym_altitude = geocoder.get_coordinates(toponym_to_find)
         if toponym_longitude and toponym_altitude:
@@ -53,11 +55,11 @@ class GameView(arcade.Window):
                 print("Http статус:", response.status_code, "(", response.reason, ")")
                 sys.exit(1)
 
-        # Запишем полученное изображение в файл.
-        with open(MAP_FILE, "wb") as file:
-            file.write(response.content)
+            # Запишем полученное изображение в файл.
+            with open(MAP_FILE, "wb") as file:
+                file.write(response.content)
 
-        self.background = arcade.load_texture(MAP_FILE)
+            self.background = arcade.load_texture(MAP_FILE)
 
 
 def main():
