@@ -1,6 +1,9 @@
 import os
 import arcade
 import sys
+
+from arcade.gui import UIFlatButton, UIBoxLayout, UIAnchorLayout, UIManager
+
 import geocoder
 import requests
 from geocoder import get_spn
@@ -17,6 +20,8 @@ STANDART_PLACE = 'Москва'
 
 class GameView(arcade.Window):
     def setup(self):
+        self.theme_index = 0
+        self.default_zoom = 1
         self.get_image()
 
     def on_draw(self):
