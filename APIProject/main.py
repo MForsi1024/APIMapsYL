@@ -42,7 +42,7 @@ class GameView(arcade.Window):
             self.background,
             arcade.LBWH(
                 (self.width - self.background.width) // 2,
-                (self.height - self.background.height) // 2,
+                (self.height - self.background.height) // 1.25,
                 self.background.width,
                 self.background.height
             ),
