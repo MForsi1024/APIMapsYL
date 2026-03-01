@@ -8,13 +8,13 @@ import geocoder
 import requests
 from geocoder import get_spn
 
+
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
 WINDOW_TITLE = "MAP"
 MAP_FILE = "map.png"
 THEMES = ['light', 'dark']
-
-
+STANDART_PLACE = 'Москва'
 class GameView(arcade.Window):
 
     def setup(self):
@@ -50,7 +50,7 @@ class GameView(arcade.Window):
         toponym_longitude, toponym_altitude = geocoder.get_coordinates(toponym_to_find)
         if toponym_longitude and toponym_altitude:
             delta = str(float(get_spn(toponym_to_find).split(",")[0]) * self.default_zoom) + "," + str(float(get_spn(toponym_to_find).split(",")[1]) * self.default_zoom)
-
+            print(type(delta))
             apikey = "17efe1e9-c0e1-4c3d-b18c-2cf038f24953"
             ll = ",".join([toponym_longitude, toponym_altitude])
             # Собираем параметры для запроса к StaticMapsAPI:
@@ -69,9 +69,9 @@ class GameView(arcade.Window):
                 print("Http статус:", response.status_code, "(", response.reason, ")")
                 sys.exit(1)
 
-        # Запишем полученное изображение в файл.
-        with open(MAP_FILE, "wb") as file:
-            file.write(response.content)
+            # Запишем полученное изображение в файл.
+            with open(MAP_FILE, "wb") as file:
+                file.write(response.content)
 
             self.background = arcade.load_texture(MAP_FILE)
 
